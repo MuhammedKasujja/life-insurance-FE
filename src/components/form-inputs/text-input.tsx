@@ -10,6 +10,7 @@ import { Input } from "../ui/input";
 
 export type InputType = "password" | "text" | "number" | "email" | "url";
 
+// App re-usable TextInput (field)
 export type TextInputProps<F extends FieldValues> = {
   label?: string;
   control: Control<F>;

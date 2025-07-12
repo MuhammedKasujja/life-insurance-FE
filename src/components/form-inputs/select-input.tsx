@@ -25,10 +25,11 @@ type SelectInputProps<FValue extends FieldValues> = {
     }[]
   >;
   placeholder?: string;
-  /// used as ui indicator to show the field is required
+  /// used as ui indicator to show the field is required using (*)
   required?: boolean;
 };
 
+// App re-usable SelectInput (field)
 export const SelectInput = <FValue extends FieldValues>({
   control,
   name,

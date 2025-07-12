@@ -24,7 +24,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 
 const riskToleranceList = [
@@ -58,7 +57,7 @@ export function RecommendationForm() {
 
   async function onSubmit(values: z.infer<typeof ProfileSchema>) {
     try {
-      await submit({ ...values });
+      await submit(values);
       form.reset();
       setOpen(true);
     } catch (e) {
@@ -102,6 +101,7 @@ export function RecommendationForm() {
                   label="Number of Dependents"
                   name={"numOfDependants"}
                   type={"number"}
+                  required={false}
                   placeholder=""
                 />
                 <SelectInput
