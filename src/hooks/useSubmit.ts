@@ -13,11 +13,10 @@ export function useSubmit<TInput, TResponse = any>(
       body: JSON.stringify(arg),
     });
 
-    // if (!res.ok) {
-    //   const error = await res.json();
-    //   console.log(error)
-    //   throw new Error(error.message || 'Submission failed');
-    // }
+    if (!res.ok) {
+      const error = await res.json();
+      throw new Error(error.message || 'Submission failed');
+    }
 
     return res.json();
   };

@@ -45,7 +45,7 @@ export const SelectInput = <FValue extends FieldValues>({
         <FormItem className="w-full">
           {label && (
             <FormLabel>
-              {label} {required && <span className="text-red-500">*</span>}
+              {label} {required && <span className="text-destructive">*</span>}
             </FormLabel>
           )}
           <Select onValueChange={field.onChange} value={field.value}>

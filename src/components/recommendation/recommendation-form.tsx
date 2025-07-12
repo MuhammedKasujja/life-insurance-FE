@@ -57,13 +57,15 @@ export function RecommendationForm() {
       form.reset();
       setOpen(true);
     } catch (e) {
+      console.log('Mutation error:', e);
     }
   }
 
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {error && !isMutating && <p className="text-destructive text-center">{error.message}</p>}
           <Card className="w-full">
             <CardHeader>
               <CardTitle>Smart Life Insurance Guide</CardTitle>

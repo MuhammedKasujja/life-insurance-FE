@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
   if (!parsed.success) {
     return NextResponse.json(
-      { errors: parsed.error.flatten() },
+      { errors: parsed.error.flatten(), message: "Field Validation failed" },
       { status: 400 }
     );
   }

@@ -6,3 +6,5 @@ export const RecommendationSchema = z.object({
   numOfDependants: z.coerce.number().max(10, "Dependants must not exceed 10"),
   riskTolerance: z.enum(["low", "medium", "high"]),
 });
+
+export type RecommendationSchemaDto = z.infer<typeof RecommendationSchema>

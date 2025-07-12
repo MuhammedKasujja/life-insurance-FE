@@ -35,7 +35,7 @@ export function TextInput<T extends FieldValues>({
         <FormItem className={"w-full"}>
           {label && (
             <FormLabel>
-              {label} {required && <span className="text-red-500">*</span>}
+              {label} {required && <span className="text-destructive">*</span>}
             </FormLabel>
           )}
           <FormControl>
