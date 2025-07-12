@@ -1,22 +1,14 @@
 import { ApiResponse } from "@/lib/api-response";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
-    const parseResult = CreateAccountSchema.safeParse(body);
-
-    if (!parseResult.success) {
-      return ApiResponse.error({
-        error: "Field validation failed",
-        data: parseResult.error.format(),
-        statusCode: 400,
-      });
-    }
-    const request = parseResult.data;
-    const account = await createCompanyAccount(request);
+    const response = await fetch(
+      "https://api.weatherapi.com/v1/current.json?key=API_KEY&q=London"
+    );
+    const data = await response.json();
     return ApiResponse.success({
-      data: account,
+      data: data,
       message: "Account created Successfully",
     });
   } catch (error) {

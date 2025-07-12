@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import z from "zod";
 import { SelectInput, TextInput } from "@/components/form-inputs";
+import { useSubmitProfile } from "@/hooks/useSubmitProfile";
 
 const riskToleranceList = [
   {
@@ -35,8 +36,13 @@ export function RecommendationForm() {
     resolver: zodResolver(recommendationSchema),
   });
 
-  function onSubmit(values: z.infer<typeof recommendationSchema>) {
+  const { submit, isMutating, data, error } = useSubmitProfile();
+
+  async function onSubmit(values: z.infer<typeof recommendationSchema>) {
     console.log(values);
+    await submit({ ...values });
+    console.log("Data submitted", data);
+    console.log("Data Error", error);
   }
 
   return (
@@ -44,9 +50,10 @@ export function RecommendationForm() {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Login to your account</CardTitle>
+            <CardTitle>Smart Life Insurance Guide</CardTitle>
             <CardDescription>
-              Enter your email below to login to your account
+              Understand your options and get a personalized recommendation in
+              minutes
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -68,7 +75,7 @@ export function RecommendationForm() {
               <TextInput
                 control={form.control}
                 label="Number of Dependents"
-                name={"numDependents"}
+                name={"numOfDependants"}
                 type={"number"}
                 placeholder=""
               />
