@@ -49,7 +49,12 @@ export function RecommendationForm() {
     resolver: zodResolver(ProfileSchema),
   });
 
-  const { submit, isMutating, data, error } = useSubmitProfile();
+  const {
+    submit,
+    isMutating,
+    data: recommendation,
+    error,
+  } = useSubmitProfile();
 
   async function onSubmit(values: z.infer<typeof ProfileSchema>) {
     try {
@@ -57,7 +62,7 @@ export function RecommendationForm() {
       form.reset();
       setOpen(true);
     } catch (e) {
-      console.log('Mutation error:', e);
+      console.log("Mutation error:", e);
     }
   }
 
@@ -65,7 +70,9 @@ export function RecommendationForm() {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {error && !isMutating && <p className="text-destructive text-center">{error.message}</p>}
+          {error && !isMutating && (
+            <p className="text-destructive text-center">{error.message}</p>
+          )}
           <Card className="w-full">
             <CardHeader>
               <CardTitle>Smart Life Insurance Guide</CardTitle>
@@ -117,22 +124,13 @@ export function RecommendationForm() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Share link</DialogTitle>
-            <DialogDescription>
-              Anyone who has this link will be able to view this.
-            </DialogDescription>
+            <DialogTitle>{recommendation?.title}</DialogTitle>
+            <DialogDescription>{recommendation?.description}</DialogDescription>
           </DialogHeader>
-          <div className="flex items-center gap-2">
-            <div className="grid flex-1 gap-2">
-              <Label htmlFor="link" className="sr-only">
-                Link
-              </Label>
-            </div>
-          </div>
-          <DialogFooter className="sm:justify-start">
+          <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
               <Button type="button" variant="secondary">
-                Close
+                OK
               </Button>
             </DialogClose>
           </DialogFooter>
