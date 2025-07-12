@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { RecommendationSchema } from "@/lib/schemas/recommendation";
+import { ProfileSchema } from "@/lib/schemas/profile";
 
 export async function POST(req: NextRequest) {
   // return NextResponse.json({ message: "Request failed" }, { status: 500 });
   const body = await req.json();
-  const parsed = RecommendationSchema.safeParse(body);
+  const parsed = ProfileSchema.safeParse(body);
 
   if (!parsed.success) {
     return NextResponse.json(

@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { RecommendationSchema } from "@/lib/schemas/recommendation";
+import { ProfileSchema } from "@/lib/schemas/profile";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
@@ -45,13 +45,13 @@ const riskToleranceList = [
 export function RecommendationForm() {
   const [open, setOpen] = useState(false);
 
-  const form = useForm<z.infer<typeof RecommendationSchema>>({
-    resolver: zodResolver(RecommendationSchema),
+  const form = useForm<z.infer<typeof ProfileSchema>>({
+    resolver: zodResolver(ProfileSchema),
   });
 
   const { submit, isMutating, data, error } = useSubmitProfile();
 
-  async function onSubmit(values: z.infer<typeof RecommendationSchema>) {
+  async function onSubmit(values: z.infer<typeof ProfileSchema>) {
     try {
       await submit({ ...values });
       form.reset();

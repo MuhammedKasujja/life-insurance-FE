@@ -1,6 +1,6 @@
-import { RecommendationSchemaDto } from "@/lib/schemas/recommendation";
+import { ProfileSchemaDto } from "@/lib/schemas/profile";
 import { useSubmit } from "./useSubmit";
 
 export function useSubmitProfile() {
-  return useSubmit<RecommendationSchemaDto>("api/recommendation");
+  return useSubmit<ProfileSchemaDto>("api/recommendation");
 }
