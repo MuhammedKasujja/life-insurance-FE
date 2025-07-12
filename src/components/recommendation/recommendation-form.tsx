@@ -76,8 +76,7 @@ export function RecommendationForm() {
             <CardHeader>
               <CardTitle>Smart Life Insurance Guide</CardTitle>
               <CardDescription>
-                Understand your options and get a personalized recommendation in
-                minutes
+                Understand your options and get a personalized recommendation instantly
               </CardDescription>
             </CardHeader>
             <CardContent>
