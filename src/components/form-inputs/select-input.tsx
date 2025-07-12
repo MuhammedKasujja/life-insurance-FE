@@ -48,7 +48,7 @@ export const SelectInput = <FValue extends FieldValues>({
               {label} {required && <span className="text-red-500">*</span>}
             </FormLabel>
           )}
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select onValueChange={field.onChange} value={field.value}>
             <FormControl>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder={placeholder} />

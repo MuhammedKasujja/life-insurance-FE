@@ -8,13 +8,24 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { recommendationSchema } from "@/lib/schemas/recommendation";
+import { RecommendationSchema } from "@/lib/schemas/recommendation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import z from "zod";
 import { SelectInput, TextInput } from "@/components/form-inputs";
 import { useSubmitProfile } from "@/hooks/useSubmitProfile";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@radix-ui/react-label";
+import { useState } from "react";
 
 const riskToleranceList = [
   {
@@ -32,69 +43,99 @@ const riskToleranceList = [
 ] as const;
 
 export function RecommendationForm() {
-  const form = useForm<z.infer<typeof recommendationSchema>>({
-    resolver: zodResolver(recommendationSchema),
+  const [open, setOpen] = useState(false);
+
+  const form = useForm<z.infer<typeof RecommendationSchema>>({
+    resolver: zodResolver(RecommendationSchema),
   });
 
   const { submit, isMutating, data, error } = useSubmitProfile();
 
-  async function onSubmit(values: z.infer<typeof recommendationSchema>) {
-    console.log(values);
-    await submit({ ...values });
-    console.log("Data submitted", data);
-    console.log("Data Error", error);
+  async function onSubmit(values: z.infer<typeof RecommendationSchema>) {
+    try {
+      await submit({ ...values });
+      form.reset();
+      setOpen(true);
+    } catch (e) {
+    }
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <Card className="w-full">
-          <CardHeader>
-            <CardTitle>Smart Life Insurance Guide</CardTitle>
-            <CardDescription>
-              Understand your options and get a personalized recommendation in
-              minutes
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col gap-5">
-              <TextInput
-                control={form.control}
-                label="Age"
-                name={"age"}
-                type={"number"}
-                placeholder=""
-              />
-              <TextInput
-                control={form.control}
-                label="Income"
-                name={"income"}
-                type={"number"}
-                placeholder=""
-              />
-              <TextInput
-                control={form.control}
-                label="Number of Dependents"
-                name={"numOfDependants"}
-                type={"number"}
-                placeholder=""
-              />
-              <SelectInput
-                control={form.control}
-                label="Risk Tolerance"
-                name={"riskTolerance"}
-                placeholder=""
-                options={riskToleranceList}
-              />
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle>Smart Life Insurance Guide</CardTitle>
+              <CardDescription>
+                Understand your options and get a personalized recommendation in
+                minutes
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col gap-5">
+                <TextInput
+                  control={form.control}
+                  label="Age"
+                  name={"age"}
+                  type={"number"}
+                  placeholder=""
+                />
+                <TextInput
+                  control={form.control}
+                  label="Income"
+                  name={"income"}
+                  type={"number"}
+                  placeholder=""
+                />
+                <TextInput
+                  control={form.control}
+                  label="Number of Dependents"
+                  name={"numOfDependants"}
+                  type={"number"}
+                  placeholder=""
+                />
+                <SelectInput
+                  control={form.control}
+                  label="Risk Tolerance"
+                  name={"riskTolerance"}
+                  placeholder=""
+                  options={riskToleranceList}
+                />
+              </div>
+            </CardContent>
+            <CardFooter className="flex-col gap-2">
+              <Button type="submit" className="w-full" disabled={isMutating}>
+                Submit
+              </Button>
+            </CardFooter>
+          </Card>
+        </form>
+      </Form>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Share link</DialogTitle>
+            <DialogDescription>
+              Anyone who has this link will be able to view this.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center gap-2">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="link" className="sr-only">
+                Link
+              </Label>
             </div>
-          </CardContent>
-          <CardFooter className="flex-col gap-2">
-            <Button type="submit" className="w-full">
-              Submit
-            </Button>
-          </CardFooter>
-        </Card>
-      </form>
-    </Form>
+          </div>
+          <DialogFooter className="sm:justify-start">
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                Close
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

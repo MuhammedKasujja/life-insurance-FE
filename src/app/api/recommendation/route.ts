@@ -1,17 +1,28 @@
-import { ApiResponse } from "@/lib/api-response";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { RecommendationSchema } from "@/lib/schemas/recommendation";
 
 export async function POST(req: NextRequest) {
-  try {
-    const response = await fetch(
-      "https://api.weatherapi.com/v1/current.json?key=API_KEY&q=London"
+  // return NextResponse.json({ message: "Request failed" }, { status: 500 });
+  const body = await req.json();
+  const parsed = RecommendationSchema.safeParse(body);
+
+  if (!parsed.success) {
+    return NextResponse.json(
+      { errors: parsed.error.flatten() },
+      { status: 400 }
     );
-    const data = await response.json();
-    return ApiResponse.success({
-      data: data,
-      message: "Account created Successfully",
+  }
+
+  try {
+    const response = await fetch(`${process.env.API_BASEURL}/recommendation`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(parsed.data),
     });
-  } catch (error) {
-    return ApiResponse.error({ error: error });
+
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (e) {
+    return NextResponse.json({ message: "Request failed" }, { status: 500 });
   }
 }
