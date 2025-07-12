@@ -2,7 +2,7 @@ import useSWRMutation from 'swr/mutation';
 
 type SubmitFetcher<TInput, TResponse> = (url: string, options: { arg: TInput }) => Promise<TResponse>;
 
-export function useSubmit<TInput, TResponse = any>(
+export function useSubmit<TInput, TResponse = unknown>(
   endpoint: string,
   fetcher?: SubmitFetcher<TInput, TResponse>
 ) {
